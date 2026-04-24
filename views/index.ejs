@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Random pokemon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Onest:wght@100..900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="styles/main.css" />
+</head>
+
+<body>
+  <div class="grid">
+    <% pokeLists.forEach((pokemon, index)=> { %>
+      <div class="card">
+        <a href="/pokemon/<%= index + 1 %>">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<%= index + 1 %>.png"
+            alt="<%= pokemon.name %>">
+          <p>
+            <%= pokemon.name %>
+          </p>
+        </a>
+      </div>
+      <% }); %>
+
+      
+        <script>
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.1 });
+
+          document.querySelectorAll(".card").forEach(card => observer.observe(card));
+        </script>
+</body>
+
+</html>

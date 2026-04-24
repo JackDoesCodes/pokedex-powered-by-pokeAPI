@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= pokemon.name %>
+  </title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Onest:wght@100..900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="/styles/pokemon.css" />
+</head>
+
+<body>
+  <div id="header">
+    <h1>
+      <%= String(pokemon.id).padStart(4, "0" ) %>
+    </h1>
+    <a id="back_button" href="/">
+      <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </a>
+    <% if (pokemon.id> 1) { %>
+      <a id="previous_button" href="/pokemon/<%= pokemon.id - 1 %>">
+        <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor"
+          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" stroke-linecap="round" stroke-linejoin="round">
+          </path>
+        </svg>
+        <span>previous</span>
+      </a>
+      <% } else { %>
+        <div id="previous_button"></div> <!-- placeholder to keep grid columns intact -->
+        <% } %>
+
+          <a id="next_button" href="/pokemon/<%= pokemon.id + 1 %>">
+            <span>next</span>
+            <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor"
+              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round">
+              </path>
+            </svg>
+          </a>
+  </div>
+
+  <div id="poke_card">
+    <img src="<%= pokemon.sprites.front_default %>" alt="<%= pokemon.name %>" />
+    <h2>
+      <%= species.names.find(e=> e.language.name === "ja")?.name %> | <%= pokemon.name %>
+    </h2>
+    <div id="types">
+      <% pokemon.types.forEach(type=> { %>
+        <p class="type <%= type.type.name %>">
+          <%= type.type.name %>
+        </p>
+        <% }); %>
+    </div>
+    <p id="gen">
+      <%= species.generation.name%>
+    </p>
+  </div>
+
+  <div id="info_card">
+    <h3>Description</h3>
+    <% const englishEntries=species.flavor_text_entries.filter(e=> e.language.name === "en");
+      const randomEntry = englishEntries[Math.floor(Math.random() * englishEntries.length)];
+      %>
+      <p>
+        <%= randomEntry?.flavor_text.replace(/[\n\f]/g, " " ) %>
+      </p>
+  </div>
+
+  <div id="evo_card">
+    <h3>Evolution Chain</h3>
+    <% if (evoChain.length===1) { %>
+      <p>No other evolutions</p>
+      <% } else { %>
+        <% evoChain.forEach((evo, index)=> { %>
+          <a href="/pokemon/<%= evo.id %>">
+            <img src="<%= evo.sprite %>" alt="<%= evo.name %>" />
+          </a>
+          <% if (index < evoChain.length - 1) { %>
+            <p>↓</p>
+            <% } %>
+              <% }); %>
+                <% } %>
+  </div>
+
+  <div id="stats">
+    <h3>Base stats</h3>
+    <% pokemon.stats.forEach(statData=> { %>
+      <% const width=(statData.base_stat / 255 * 100).toFixed(1) + '%' ; %>
+        <div class="stat">
+          <p class="stat_name">
+            <%= statData.stat.name.toUpperCase() %>
+          </p>
+          <div class="stat_bar_bg">
+            <div class="stat_bar" style='width: <%= width %>'></div>
+          </div>
+          <p>
+            <%= statData.base_stat %>
+          </p>
+        </div>
+        <% }); %>
+          <!-- fix this -->
+  </div>
+
+  <div id="moves">
+    <h3>Moves it can learn</h3>
+    <div id="moves_list">
+      <% pokemon.moves.forEach((move)=> { %>
+        <p>
+          <%= move.move.name %>
+        </p>
+        <% }); %>
+    </div>
+  </div>
+
+  <script>
+  window.addEventListener("load", () => {
+    document.querySelectorAll("#poke_card, #info_card, #evo_card, #stats, #moves, #header")
+      .forEach((section) => section.classList.add("visible"));
+  });
+</script>
+</body>
+
+</html>

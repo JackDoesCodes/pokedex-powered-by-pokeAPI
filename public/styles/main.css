@@ -1,0 +1,71 @@
+body {
+  background: #252527;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.card {
+  display: flex;
+  background-color: #484848;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+  padding: 12px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card.visible:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 96px;
+  height: 96px;
+}
+
+.card p {
+  text-transform: capitalize;
+  margin: 8px 0 0;
+  font-weight: bold;
+  color: #ccc;
+  font-family: 'Onest';
+  text-align: center;
+}
+
+.card a {
+  text-decoration: none;
+}
+
+/* ---------------------- Breakpoints ------------------------------ */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 360px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
