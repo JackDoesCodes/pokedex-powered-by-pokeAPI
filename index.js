@@ -3,7 +3,7 @@ import axios from "axios";
 
 const app = express();
 const port = 3000;
-const API_URL = "https://pokeapi.co/api/v2/"; //endpoint for getting the pokemon data
+const API_URL = "https://pokeapi.co/api/v2/"; // endpoint for getting the pokemon data
 
 app.use(express.static("public"));
 
@@ -12,8 +12,13 @@ app.get("/", async (req, res) => {
     const responseData = await axios.get(
       API_URL + "pokemon?limit=1025&offset=0",
     );
-    const pokeLists = responseData.data.results.slice(0, 1025); // Get pokemon objects from 1 to 1025
-    res.render("index.ejs", { pokeLists: pokeLists });
+    const pokeLists = responseData.data.results.slice(0, 1025); // get pokemon objects from 1 to 1025
+    const currentYear = new Date().getFullYear();
+
+    res.render("index.ejs", {
+      pokeLists: pokeLists,
+      currentYear: currentYear,
+    });
   } catch (error) {
     console.error("Failed to make request:", error.message);
     res.render("index.ejs", { error: error.message });
@@ -40,8 +45,8 @@ app.get("/pokemon/:id", async (req, res) => {
       evoData = evoData.evolves_to[0];
     } while (evoData);
 
-    // fetch all evolution sprites
     const evoChain = await Promise.all(
+      // fetch all evolution sprites
       evoNames.map(async (name) => {
         const evoSprite = await axios.get(API_URL + "pokemon/" + name);
         return {
@@ -51,11 +56,14 @@ app.get("/pokemon/:id", async (req, res) => {
         };
       }),
     );
-    // render route passing args
+    const currentYear = new Date().getFullYear();
+
     res.render("pokemon.ejs", {
+      // render route passing args
       species: responseSpecies.data,
       pokemon: responsePokemon.data,
-      evoChain,
+      evoChain: evoChain,
+      currentYear: currentYear,
     });
   } catch (error) {
     console.error("Failed to make request:", error.message);

@@ -1,10 +1,15 @@
 body {
   background: #252527;
+  padding: 20px;
+}
+
+/* ------------------- Content ------------------- */
+
+#content {
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: auto auto auto;
   column-gap: 20px;
-  padding: 20px;
 }
 
 h3 {
@@ -93,8 +98,6 @@ p {
 #next_button:hover {
   transform: scale(1.1);
 }
-
-/* -------------------------------------------------------------------- */
 
 #poke_card {
   background-color: #484848;
@@ -320,6 +323,14 @@ p {
   font-family: "Onest";
 }
 
+/* -------------------------- Footer -------------------------- */
+footer {
+    padding: 20px;
+    text-align: right;
+    font-family: 'Onest';
+}
+
+/* ----------------------------------------------- */
 #poke_card,
 #info_card,
 #evo_card,

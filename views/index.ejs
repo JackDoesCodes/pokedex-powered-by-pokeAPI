@@ -2,16 +2,17 @@
 <html>
 
 <head>
-  <title>Random pokemon</title>
+  <title>Pokedex</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Onest:wght@100..900&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="styles/main.css" />
+  <link rel="stylesheet" type="text/css" href="styles/index.css" />
+  <link rel="stylesheet" href="styles/footer.css">
 </head>
 
 <body>
-  <div class="grid">
+  <div id="content">
     <% pokeLists.forEach((pokemon, index)=> { %>
       <div class="card">
         <a href="/pokemon/<%= index + 1 %>">
@@ -23,20 +24,22 @@
         </a>
       </div>
       <% }); %>
+  </div>
 
-      
-        <script>
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("visible");
-                observer.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.1 });
+  <%- include("partials/footer.ejs", {currentYear}) %>
 
-          document.querySelectorAll(".card").forEach(card => observer.observe(card));
-        </script>
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".card").forEach(card => observer.observe(card));
+  </script>
 </body>
 
 </html>
