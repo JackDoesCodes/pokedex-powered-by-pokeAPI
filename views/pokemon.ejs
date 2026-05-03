@@ -17,18 +17,18 @@
   <div id="content">
     <div id="header">
       <h1>
-        <%= String(pokemon.id).padStart(4, "0" ) %>
+        <%= String(baseId).padStart(4, "0" ) %>
       </h1>
       <a id="back_button" href="/">
-        <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
+        <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor"
+          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path
             d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
             stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
       </a>
-      <% if (pokemon.id > 1) { %>
-        <a id="previous_button" href="/pokemon/<%= pokemon.id - 1 %>">
+      <% if (baseId > 1) { %>
+        <a id="previous_button" href="/pokemon/<%= baseId - 1 %>">
           <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor"
             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" stroke-linecap="round" stroke-linejoin="round">
@@ -36,22 +36,23 @@
           </svg>
           <span>previous</span>
         </a>
-      <% } else { %>
-        <div id="previous_button"></div>
-      <% } %>
+        <% } else { %>
+          <div id="previous_button"></div>
+          <% } %>
 
-      <% if (pokemon.id < 1025) { %>
-        <a id="next_button" href="/pokemon/<%= pokemon.id + 1 %>">
-          <span>next</span>
-          <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor"
-            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round">
-            </path>
-          </svg>
-        </a>
-      <% } else { %>
-        <div id="next_button"></div>
-      <% } %>
+            <% if (baseId < 1024) { %>
+              <a id="next_button" href="/pokemon/<%= baseId + 1 %>">
+                <span>next</span>
+                <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="currentColor"
+                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                  </path>
+                </svg>
+              </a>
+              <% } else { %>
+                <div id="next_button"></div>
+                <% } %>
     </div>
 
     <div id="poke_card">
@@ -87,16 +88,38 @@
         <p>No other evolutions</p>
         <% } else { %>
           <% evoChain.forEach((evo, index)=> { %>
-            <a href="/pokemon/<%= evo.id %>">
-              <img src="<%= evo.sprite %>" alt="<%= evo.name %>" />
-            </a>
-            <% if (index < evoChain.length - 1) { %>
-              <p>↓</p>
+            <% if (evo.sprite) { %>
+              <a href="/pokemon/<%= evo.id %>">
+                <img src="<%= evo.sprite %>" alt="<%= evo.name %>" />
+              </a>
+              <% } else { %>
+                <p>
+                  <%= evo.name %>
+                </p>
               <% } %>
-                <% }); %>
+                <% if (index < evoChain.length - 1) { %>
+                  <p>↓</p>
                   <% } %>
+            <% }); %>
+          <% } %>
     </div>
 
+    <% if (varieties.length > 0) { %>
+      <div id="forms_card">
+        <h3>Other Forms</h3>
+        <div id="forms_list">
+          <% varieties.forEach((variety) => { %>
+            <% const formId = variety.pokemon.url.split('/').filter(Boolean).pop() %>
+            <a href="/pokemon/<%= formId %>">
+              <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<%= formId %>.png" 
+                  alt="<%= variety.pokemon.name %>" />
+              <p><%= variety.pokemon.name %></p>
+            </a>
+          <% }); %>
+        </div>
+      </div>
+    <% } %>
+    
     <div id="stats">
       <h3>Base stats</h3>
       <% pokemon.stats.forEach(statData=> { %>
@@ -124,14 +147,14 @@
           </p>
           <% }); %>
       </div>
-    </div>    
+    </div>
   </div>
 
   <%- include("partials/footer.ejs", {currentYear}) %>
 
     <script>
       window.addEventListener("load", () => {
-        document.querySelectorAll("#poke_card, #info_card, #evo_card, #stats, #moves, #header")
+        document.querySelectorAll("#poke_card, #info_card, #evo_card, #forms_card, #stats, #moves, #header")
           .forEach((section) => section.classList.add("visible"));
       });
     </script>

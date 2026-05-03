@@ -47,7 +47,7 @@ p {
   font-size: 76px;
   font-family: "Onest";
   margin: 0;
-  color: #a58355;
+  color: #b38f5c;
   letter-spacing: 10px;
 }
 
@@ -91,12 +91,6 @@ p {
 #next_button svg {
   width: 24px;
   flex-shrink: 0;
-}
-
-#back_button:hover,
-#previous_button:hover,
-#next_button:hover {
-  transform: scale(1.1);
 }
 
 #poke_card {
@@ -241,13 +235,46 @@ p {
     transform 0.4s ease;
 }
 
-#evo_card img:hover {
-  transform: scale(1.05);
-}
-
 #evo_card p {
   margin: 0;
   font-weight: bold;
+}
+
+#forms_card {
+  background-color: #484848;
+  border-radius: 10px;
+  grid-column: 1 / 2;
+  grid-row: 4;
+  padding: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#forms_list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+#forms_list a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+}
+
+#forms_list img {
+  width: 100px;
+  transition: transform 0.4s ease;
+}
+
+#forms_list p {
+  font-size: 14px;
+  text-transform: capitalize;
+  margin: 4px 0 0;
 }
 
 #stats {
@@ -258,7 +285,7 @@ p {
   background-color: #484848;
   border-radius: 10px;
   grid-column: 1 / 2;
-  grid-row: 4;
+  grid-row: 5;
   padding: 20px;
   margin-top: 20px;
 }
@@ -266,7 +293,6 @@ p {
 .stat {
   display: grid;
   grid-template-columns: 120px 1fr 40px;
-  /* name | bar | number */
   align-items: center;
   gap: 10px;
   width: 100%;
@@ -297,7 +323,7 @@ p {
   background-color: #484848;
   border-radius: 0 0 10px 10px;
   grid-column: 2 / 2;
-  grid-row: 3 / span 3;
+  grid-row: 3;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -325,12 +351,25 @@ p {
 
 /* -------------------------- Footer -------------------------- */
 footer {
-    padding: 20px;
-    text-align: right;
-    font-family: 'Onest';
+  padding: 20px;
+  text-align: right;
+  font-family: "Onest";
+  color: #ccc;
 }
 
-/* ----------------------------------------------- */
+/* ---------------------- Animations ------------------------- */
+#back_button:hover,
+#previous_button:hover,
+#next_button:hover,
+#forms_list img:hover {
+  transform: scale(1.1);
+}
+
+#evo_card img:hover {
+  transform: scale(1.05);
+}
+
+#forms_card,
 #poke_card,
 #info_card,
 #evo_card,
@@ -339,9 +378,12 @@ footer {
 #header {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
 }
 
+#forms_card.visible,
 #poke_card.visible,
 #info_card.visible,
 #evo_card.visible,
@@ -355,7 +397,7 @@ footer {
 /* ----------------- Breakpoints ----------------- */
 
 @media (max-width: 900px) {
-  body {
+  #content {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
   }

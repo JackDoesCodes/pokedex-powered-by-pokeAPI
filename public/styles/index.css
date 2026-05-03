@@ -2,7 +2,16 @@ body {
   background: #252527;
 }
 
-.grid {
+/* ------------------- Content ------------------- */
+
+h1 {
+  text-align: center;
+  font-family: "Onest";
+  font-size: 46px;
+  color: #b38f5c;
+}
+
+#content {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 16px;
@@ -23,15 +32,6 @@ body {
     transform 0.4s ease;
 }
 
-.card.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.card.visible:hover {
-  transform: scale(1.05);
-}
-
 .card img {
   width: 96px;
   height: 96px;
@@ -42,7 +42,7 @@ body {
   margin: 8px 0 0;
   font-weight: bold;
   color: #ccc;
-  font-family: 'Onest';
+  font-family: "Onest";
   text-align: center;
 }
 
@@ -50,22 +50,40 @@ body {
   text-decoration: none;
 }
 
+/* ------------------------ Animations ------------------------ */
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card.visible:hover {
+  transform: scale(1.05);
+}
+
+/* -------------------------- Footer -------------------------- */
+footer {
+  padding: 20px;
+  text-align: right;
+  font-family: "Onest";
+  color: #ccc;
+}
+
 /* ---------------------- Breakpoints ------------------------------ */
 
 @media (max-width: 900px) {
-  .grid {
+  #content {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 600px) {
-  .grid {
+  #content {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 360px) {
-  .grid {
+  #content {
     grid-template-columns: 1fr;
   }
 }

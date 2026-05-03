@@ -12,14 +12,16 @@
 </head>
 
 <body>
+  <h1>Pokedex</h1>
+
   <div id="content">
     <% pokeLists.forEach((pokemon, index)=> { %>
       <div class="card">
         <a href="/pokemon/<%= index + 1 %>">
           <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<%= index + 1 %>.png"
-            alt="<%= pokemon.name %>">
+            alt="<%= pokemon.name.split('-')[0] %>">
           <p>
-            <%= pokemon.name %>
+            <%= pokemon.name.split('-')[0] %>
           </p>
         </a>
       </div>
